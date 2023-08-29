@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.movrank.repository.MemberMapper">
+    <insert id="join" parameterType="com.springboot.mycgv.dto.MemberDto">
+        insert into
+            mycgv_member
+        (id,pass,name,gender,email,addr,tel,pnumber,hobbylist,intro,mdate,grade)
+        values
+            (#{id},#{pass},#{name},#{gender},#{email},#{addr}
+            ,#{tel},#{pnumber},#{hobbyList},#{intro},sysdate,'GOLD')
+    </insert>
+
+    <select id="idcheck" parameterType="String" resultType="int">
+        <!-- COUNT(*)일때 resultType에 Vo로 주게 될 경우 Vo안에 COUNT 이름을 찾아 들어가는데 같은 이름이 없을 경우 null로 들어간다 -->
+        SELECT COUNT(*) FROM MYCGV_MEMBER WHERE ID=#{id}
+    </select>
+
+    <select id="login" parameterType="com.springboot.mycgv.dto.MemberDto"
+            resultType="com.springboot.mycgv.dto.SessionDto">
+    select count(*) loginresult, name, id
+    from mycgv_member
+    where id=#{id} and pass=#{pass}
+    group by name,id
+    </select>
+</mapper>
